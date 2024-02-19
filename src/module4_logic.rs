@@ -1,3 +1,5 @@
+use rand::random;
+
 fn patterns_example_1() {
     println!("-- Patterns Example 1 --");
     let (x, y) = (2, 3);
@@ -121,20 +123,18 @@ fn pattern_matching_example_1() {
 }
 
 // Creating an Enum
-enum Meal{
+enum Meal {
     FishAndChips { chip_proportion: f64 },
     Hamburger { vegetarian: bool },
 }
 
-fn pattern_matching_example_2(){
+fn pattern_matching_example_2() {
     println!("-- Pattern Matching Example 2 --");
 
     // Creating a variable of
-    let meal = Meal::Hamburger {
-        vegetarian: true,
-    };
+    let meal = Meal::Hamburger { vegetarian: true };
 
-    if let Meal::Hamburger { .. } = meal{
+    if let Meal::Hamburger { .. } = meal {
         println!("I had a hamburger!");
     }
 
@@ -143,10 +143,10 @@ fn pattern_matching_example_2(){
     }
 }
 
-fn pattern_matching_example_3(){
+fn pattern_matching_example_3() {
     println!("-- Pattern Matching Example 3 --");
 
-    for n in 0..=5{
+    for n in 0..=5 {
         match n {
             1 => println!("It was one!"),
             2 => println!("It was two!"),
@@ -158,17 +158,15 @@ fn pattern_matching_example_3(){
     }
 }
 
-fn pattern_matching_example_4(){
+fn pattern_matching_example_4() {
     println!("-- Pattern Matching Example 4 --");
 
     // Creating a variable of
-    let meal = Meal::Hamburger {
-        vegetarian: true,
-    };
+    let meal = Meal::Hamburger { vegetarian: true };
 
     // Match
     match meal {
-        Meal::FishAndChips { chip_proportion} => {
+        Meal::FishAndChips { chip_proportion } => {
             if chip_proportion > 0.5 {
                 println!("I had some fish and plenty of chips!");
             } else if chip_proportion < 0.5 {
@@ -177,7 +175,7 @@ fn pattern_matching_example_4(){
                 println!("I had fish and chips!");
             }
         }
-        Meal::Hamburger { vegetarian} => {
+        Meal::Hamburger { vegetarian } => {
             if vegetarian {
                 println!("I had a vegetarian hamburger!");
             } else {
@@ -188,13 +186,13 @@ fn pattern_matching_example_4(){
 
     // Match reducing the nested ifs
     match meal {
-        Meal::FishAndChips { chip_proportion} if chip_proportion > 0.5 => {
+        Meal::FishAndChips { chip_proportion } if chip_proportion > 0.5 => {
             println!("I had some fish and plenty of chips!");
         }
-        Meal::FishAndChips { chip_proportion} if chip_proportion < 0.5 => {
+        Meal::FishAndChips { chip_proportion } if chip_proportion < 0.5 => {
             println!("I had plenty of fish and some chips!");
         }
-        Meal::FishAndChips { chip_proportion} => {
+        Meal::FishAndChips { chip_proportion } => {
             println!("I had fish and chips!");
         }
         Meal::Hamburger { vegetarian: true } => {
@@ -206,15 +204,18 @@ fn pattern_matching_example_4(){
     }
 }
 
-fn pattern_matching_example_5(){
+fn pattern_matching_example_5() {
     println!("-- Pattern Matching Example 5 --");
 
     let mut meal = Meal::FishAndChips {
         chip_proportion: 0.6,
     };
 
-    while let Meal::FishAndChips { chip_proportion} = meal {
-        println!("Having fish and chips with chip proportion {:.2} ...", chip_proportion);
+    while let Meal::FishAndChips { chip_proportion } = meal {
+        println!(
+            "Having fish and chips with chip proportion {:.2} ...",
+            chip_proportion
+        );
         if chip_proportion > 0.3 {
             // Order a meal with fewer chips
             meal = Meal::FishAndChips {
@@ -227,6 +228,169 @@ fn pattern_matching_example_5(){
     }
     println!("I'm so done with fish and chips!");
 }
+
+fn pattern_matching_example_6() {
+    println!("-- Pattern Matching Example 6 --");
+
+    // For example 1
+    let tuples: [(usize, &'static str); 3] = [(1, "red"), (2, "white"), (3, "blue")];
+
+    for (numbering, color) in tuples {
+        println!("Color #{numbering} is {color}!");
+    }
+
+    // For example 2
+    let colors = ["red", "white", "blue"];
+
+    for (index, color) in colors.into_iter().enumerate() {
+        let numbering = index + 1;
+        println!("Color #{numbering} is {color}!");
+    }
+}
+
+fn statements_and_expressions_example_1() {
+    println!("-- Statements and Expressions Example 1 --");
+
+    // Generate random brownies number
+    let brownies_eaten = random::<u8>() % 10;
+
+    // if statement
+    if brownies_eaten == 0 {
+        println!("I had no brownies today.");
+    } else {
+        println!("I had at least one brownie today.");
+    }
+
+    // if statement, reducing duplication
+    let quantifier;
+    if brownies_eaten == 0 {
+        quantifier = "no brownies";
+    } else {
+        quantifier = "at least one brownie";
+    }
+    println!("I had {quantifier} today");
+
+    // using if as an expression
+    let quantifier = if brownies_eaten == 0 {
+        "no brownies"
+    } else {
+        "at least one brownie"
+    };
+    println!("I had {quantifier} today.");
+}
+
+fn statements_and_expressions_example_2() {
+    println!("-- Statements and Expressions Example 2 --");
+
+    // Generate random brownies
+    let brownies_eaten = random::<u8>() % 3;
+
+    // Using match as an expression
+    let quantifier = match brownies_eaten {
+        0 => "no brownies",
+        1 => "a brownie",
+        _ => "multiple brownies",
+    };
+    println!("I had {quantifier} today");
+}
+
+fn statements_and_expressions_example_3() {
+    println!("-- Statements and Expressions Example 3 --");
+
+    let (a, b) = (2, 1);
+
+    let x = if a > b {
+        println!("It was true!");
+        1
+    } else {
+        2
+    };
+
+    println!("The X result is {x}!");
+}
+
+fn statements_and_expressions_example_4() {
+    println!("-- Statements and Expressions Example 4 --");
+
+    // Scope evaluates to nothing
+    let x;
+    {
+        println!("`x` has no value yet!");
+        x = 3;
+    }
+
+    // Scope evaluates to result of the expression
+    let y = {
+        println!("`y` has no value yet!");
+        3
+    };
+}
+
+fn statements_and_expressions_example_5() {
+    println!("-- Statements and Expressions Example 5 --");
+
+    // Loop as expression
+    let mut i = 0;
+    let x = loop {
+        if i > 7 {
+            break i;
+        }
+        i += i * 2 + 1;
+    };
+    println!("{x}");
+}
+
+fn functions_and_closures_example_1(){
+    println!("-- Functions and Closures Example 1 --");
+
+    // Declaring a function
+    fn u32_add(a: u32, b: u32) -> u32 {
+        return a + b;
+    }
+    println!("1 + 2 = {}", u32_add(1, 2));
+
+    // You could also do:
+    fn u32_add_alternative(a: u32, b: u32) -> u32 {
+       a + b
+    }
+    println!("2 + 2 = {}", u32_add(2, 2));
+
+    // It is allowed to define functions inside other functions:
+    fn f(n: u32) -> u32 {
+        fn g(n: u32) -> u32 {
+            n + 1
+        }
+
+        g( n * 2)
+    }
+    println!("{}", f(3));
+}
+
+fn functions_and_closures_example_2(){
+    println!("-- Functions and Closures Example 2 --");
+
+    struct X(&'static str);
+    // An implementation block for the type `X`.
+    impl X {
+        // An associated function
+        fn associated_fn() -> &'static str {
+            "I am always the same!"
+        }
+        // A method
+        fn method(self: &Self) -> &'static str {
+            self.0
+        }
+    }
+    // Call a function associated to the type `X`.
+    println!("{}", X::associated_fn());
+    // Create an instance of X and call a method on the instance.
+    let instance = X("My value depends on an instance of `X`!");
+    println!("{}", instance.method());
+    // Create another instance of X
+    let instance2 = X("See now my value is different!");
+    println!("{}", instance2.method());
+}
+
 
 pub fn module_4() {
     println!("--------- Module 4 Lesson! --------");
@@ -244,5 +408,13 @@ pub fn module_4() {
     pattern_matching_example_3();
     pattern_matching_example_4();
     pattern_matching_example_5();
+    pattern_matching_example_6();
+    statements_and_expressions_example_1();
+    statements_and_expressions_example_2();
+    statements_and_expressions_example_3();
+    statements_and_expressions_example_4();
+    statements_and_expressions_example_5();
+    functions_and_closures_example_1();
+    functions_and_closures_example_2();
     println!("-----------------------------------");
 }
